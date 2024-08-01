@@ -1,0 +1,54 @@
+OID,MDOT Mode,MDOT Location,Address,Lat,Long,Census Tract,Eligible Tracts for Tier 1 ACPs (1 = Y; 0 = N),Parcel Size (Ac),Potential Solar*9MW),Potential Solar (MW/yr)
+1,MTA,North Avenue - LR,"343 W. North Avenue, Baltimore, MD 21217",39.310089,-76.621688,120700,1,0.21,0.07,  114.98 
+2,MTA,North Linthicum - LR,"450 N. Camp Meade Road, Linthicum Heights, MD 21090",39.216389,-76.661667,750300,1,12.50,4.17,"  6,843.75 "
+3,MTA,Point of Rocks - MARC - Brunswick,"4000 Clay St., Point of Rocks, MD 21777",39.273333,-77.538333,752303,1,3.43,1.14,"  1,877.93 "
+4,MTA,     Commerce Street Parcels (Collectively),,39.273333,-77.538333,,1,0.99,0.33,  542.03 
+5,MTA,     Clay Street Parcel,,39.273333,-77.538333,,1,0.25,0.08,  136.88 
+6,MTA,Randallstown Bus Loop - BUS,"Randallstown Loop, Liberty Rd., Randallstown, MD 21133",39.372867,-76.798309,402505,1,0.92,0.31,  502.61 
+7,MTA,S Monroe Street - BUS,"1331 South Monroe Street, Baltimore, MD 21230",39.276318,-76.641303,210200,1,2.07,0.69,"  1,132.23 "
+8,MTA,Gardenville P&R - BUS ,"Gardenville Park and Ride, Belair Rd., Baltimore, MD 21206",39.343144,-76.554398,270401,1,1.28,0.43,  699.16 
+9,MTA,LaPlata P&R - BUS,"215 Washington Ave., LaPlata, MD 20646",38.529533,-76.975899,851004,1,0.77,0.26,  421.58 
+10,MTA,Waldorf P&R - BUS,"3750 Old Washington Road, Waldorf, MD 20602",38.61179,-76.914443,850901,1,0.33,0.11,  180.68 
+11,MVA,Glen Burnie HQ & Branch,"6601 Ritchie Hwy. NE, Glen Burnie, MD 21060",39.197407,-76.611267,750803,1,18.50,6.17,"  10,128.75 "
+12,MVA,Glen Burnie OIR Building,,39.197407,-76.611267,,1,,,
+14,SHA,SHA Hanover Complex,"7450 Traffic Drive, Hanover, MD 21076",39.157333,-76.725111,751400,1,4.49,1.50,"  2,458.28 "
+15,SHA,MD 210 @ MD 373 (Accokeek),"14772 Livingston Rd., Accokeek, MD 20607",38.687614,-77.017861,801310,1,3.00,1.00,"  1,642.50 "
+16,SHA,I-195 @ MD 166 (Southwest P&R) ,"1220 S. Rolling Road, Catonsville MD 21228",39.266857,-76.739283,400400,1,3.00,1.00,"  1,642.50 "
+17,SHA,MD 5 Mattawoman/Beantown Rd (Mattawoman-Beantown),"3220 Mattawoman Beantown Rd, Waldorf MD 20601",38.612849,-76.897159,850802,1,6.00,2.00,"  3,285.00 "
+18,SHA,MD 32 @ Broken Land Parkway (east lot ) Broken Land East ,9602 Broken Land Parkway Columbia MD 21046 (exit 14),39.173104,-76.846098,606708,1,2.50,0.83,"  1,368.75 "
+20,MAA,BWI Site 1b,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,980000,1,32.00,16.00,"  22,672.00 "
+21,MAA,BWI Site 1e,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,40.00,20.00,"  28,340.00 "
+22,MAA,BWI Site 47a,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,4.00,2.00,"  2,834.00 "
+23,MAA,BWI Site 44,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,14.00,7.00,"  9,205.00 "
+24,MAA,BWI Site 15,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,10.00,5.00,"  8,502.00 "
+25,MAA,BWI Site 53,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,10.00,5.00,"  7,085.00 "
+26,MAA,BWI Site 6,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,25.00,12.50,"  16,437.50 "
+27,MAA,BWI Site 46,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,32.00,16.00,"  23,887.50 "
+28,MAA,BWI Site 47c,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,4.00,2.00,"  2,730.00 "
+29,MAA,BWI Site 5,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,4.00,2.00,"  7,085.00 "
+30,MAA,BWI Site 47b,"7050 Friendship Rd., Baltimore, MD 21240
+(see MAA Maps tab)",39.177426,-76.668747,,1,6.00,3.00,"  3,945.00 "
+31,MAA,MTN Site 2,"701 Wilson Point Rd., Middle River, MD 21220
+(see MAA Maps tab)",39.326947,-76.417247,451600,1,2.00,1.00,"  1,417.00 "
+32,MAA,MTN Site 9,"701 Wilson Point Rd., Middle River, MD 21220
+(see MAA Maps tab)",39.326947,-76.417247,,1,4.00,2.00,"  2,834.00 "
+33,MAA,MTN Site 14,"701 Wilson Point Rd., Middle River, MD 21220
+(see MAA Maps tab)",39.326947,-76.417247,,1,4.00,2.00,"  2,834.00 "
+34,MAA,MTN Site 10,"701 Wilson Point Rd., Middle River, MD 21220
+(see MAA Maps tab)",39.326947,-76.417247,,1,2.00,1.00,"  1,315.00 "
+35,MAA,MTN Site 11,"701 Wilson Point Rd., Middle River, MD 21220
+(see MAA Maps tab)",39.326947,-76.417247,,1,1.00,0.50,  657.50 
+36,MAA,MTN Site 15,"701 Wilson Point Rd., Middle River, MD 21220
+(see MAA Maps tab)",,,,1,1.00,0.50,  682.50 
+37,TSO,MDOT Headquarters,"7201 Corporate Center Drive, Hanover, MD 21076",39.176101,-76.727074,751200,1,1.50,0.75,"  1,231.88 "
+38,MPA,Hawkins Point,"Cove Rd., Baltimore, MD 21226",39.204259,-76.546836,250500,1,15.00,7.50,"  12,318.75 "
