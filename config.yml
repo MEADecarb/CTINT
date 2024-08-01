@@ -1,0 +1,14 @@
+theme: jekyll-theme-minimal
+title: Maryland HB550 Census Tracts
+description: An interactive map of HB550 census tracts.
+
+# Plugins you want to use
+plugins:
+  - jekyll-remote-theme
+
+# Base URL configuration
+baseurl: "/schools" # the subpath of your site, e.g., "/schools"
+url: "https://meadecarb.github.io" # the base hostname & protocol for your site
+
+# Optional settings
+permalink: /:categories/:title/
