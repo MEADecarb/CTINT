@@ -14,6 +14,11 @@ This project visualizes various GeoJSON and CSV data layers over a map of Maryla
 - **Geocoder Plugin**: Allows searching for addresses on the map.
 - **Link to GitHub README**: Provides easy access to the project documentation.
 
+  ## References
+
+For more information about the ENOUGH Act, visit the [ENOUGH Act Map View](https://experience.arcgis.com/experience/8b24a4ffb5ee4670af96d7b174c1933b/page/Map-View/#data_s=id%3AdataSource_2-19035df158c-layer-4%3A852).
+
+
 ## Installation
 
 1. **Clone the repository**:
