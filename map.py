@@ -2,6 +2,7 @@ import folium
 from folium.plugins import Geocoder
 import requests
 import pandas as pd
+import branca
 
 # Define a color palette
 color_palette = ["#2C557E", "#fdda25", "#B7DCDF", "#000000"]  # Fixed color format
@@ -28,6 +29,13 @@ def add_geojson_from_url(geojson_url, name, color, map_obj):
         # Custom handling for the new GeoJSON layer
         all_fields = list(geojson_data['features'][0]['properties'].keys())
         geojson_layer.add_child(folium.GeoJsonPopup(fields=all_fields, labels=True))
+    elif name == "Enough Act Child Poverty Census Tracts":
+        # Use bright orange for this specific layer
+        geojson_layer = folium.GeoJson(
+            geojson_data,
+            style_function=lambda x: {'fillColor': '#FF8C00', 'color': '#FF8C00'}
+        )
+        geojson_layer.add_child(folium.GeoJsonPopup(fields=list(geojson_data['features'][0]['properties'].keys()), labels=True))
 
     geojson_layer.add_to(feature_group)
     feature_group.add_to(map_obj)
@@ -36,33 +44,84 @@ def add_geojson_from_url(geojson_url, name, color, map_obj):
 github_geojson_sources = [
     ("https://services.arcgis.com/njFNhDsUCentVYJW/arcgis/rest/services/MDOT_SHA_County_Boundaries/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson", "MDOT SHA County Boundaries"),
     ("https://raw.githubusercontent.com/MEADecarb/schools/main/MDHB550CensusTracts.geojson", "MD HB 550 Census Tracts"),
-    ("https://raw.githubusercontent.com/MEADecarb/CTINT/main/Enough_Act_Child_Poverty_Census_Tracts_-2847962131010073922%20(1).geojson", "Enough Act Child Poverty Census Tracts")  # Corrected URL for raw GeoJSON
+    ("https://raw.githubusercontent.com/MEADecarb/CTINT/main/enough_CT.geojson", "Enough Act Child Poverty Census Tracts")  # Updated URL for the new GeoJSON
 ]
 
 for i, (url, name) in enumerate(github_geojson_sources):
-    color = color_palette[i % len(color_palette)]
-    add_geojson_from_url(url, name, color, m)
+    if name == "Enough Act Child Poverty Census Tracts":
+        add_geojson_from_url(url, name, '#FF8C00', m)  # Bright orange color for this layer
+    else:
+        color = color_palette[i % len(color_palette)]
+        add_geojson_from_url(url, name, color, m)
 
-# Function to add point layer from CSV with custom icon
-def add_point_layer_from_csv(url, map_obj, icon_path):
+# Function to add ENOUGH Act school locations as black points
+def add_enough_act_school_locations(geojson_url, map_obj):
+    feature_group = folium.FeatureGroup(name="ENOUGH Act School Locations", show=True)
+    
+    response = requests.get(geojson_url)
+    geojson_data = response.json()
+    
+    for feature in geojson_data['features']:
+        properties = feature['properties']
+        coordinates = feature['geometry']['coordinates']
+        
+        popup_content = f"School Name: {properties['SCHOOL_NAME']} District: {properties['SCHOOL_DISTRICT_NAME']} Status: {properties['CHILD_CPG_STATUS']}"
+        
+        folium.CircleMarker(
+            location=[coordinates[1], coordinates[0]],  # Note: GeoJSON coordinates are [longitude, latitude]
+            color='black',
+            radius=5,
+            popup=folium.Popup(popup_content, parse_html=True)
+        ).add_to(feature_group)
+    
+    feature_group.add_to(map_obj)
+
+# Add the ENOUGH Act school locations layer to the map
+add_enough_act_school_locations('https://raw.githubusercontent.com/MEADecarb/CTINT/main/Enough_Act_School_Locations.geojson', m)
+
+# Function to add other school locations from CSV as blue stars
+def add_other_school_locations_from_csv(url, map_obj, lat_col='LAT', long_col='LON', popup_cols=None):
+    feature_group = folium.FeatureGroup(name="Other School Locations", show=False)
     data = pd.read_csv(url)
     
     # Print the columns to debug the issue
     print("CSV Columns:", data.columns)
     
     for index, row in data.iterrows():
-        if pd.notna(row['Lat']) and pd.notna(row['Long']):
+        if pd.notna(row[lat_col]) and pd.notna(row[long_col]):
+            popup_content = ' '.join([f"{col}: {row[col]}" for col in popup_cols]) if popup_cols else ''
             folium.Marker(
-                location=[row['Lat'], row['Long']],
-                icon=folium.CustomIcon(icon_path, icon_size=(30, 30)),
-                popup=row['MDOT Location']  # Replace 'MDOT Location' with the appropriate column name
-            ).add_to(map_obj)
+                location=[row[lat_col], row[long_col]],
+                icon=folium.Icon(color='blue', icon='star'),
+                popup=folium.Popup(popup_content, parse_html=True)
+            ).add_to(feature_group)
+    
+    feature_group.add_to(map_obj)
 
-# Path to your custom icon
-icon_path = '/content/image.png'
+# Add the other school locations layer from CSV to the map
+add_other_school_locations_from_csv('https://raw.githubusercontent.com/MEADecarb/CTINT/main/schools24%20-%20Sheet2.csv', m, lat_col='LAT', long_col='LON', popup_cols=['SCHOOL', 'PROJECT'])
 
-# Add the point layer to the map
-add_point_layer_from_csv('https://raw.githubusercontent.com/MEADecarb/geos/main/data/MDOTSolar.csv', m, icon_path)
+# Function to add MDOT Solar locations from CSV as custom icons
+def add_mdot_solar_locations_from_csv(url, map_obj, lat_col='Lat', long_col='Long', popup_cols=None):
+    feature_group = folium.FeatureGroup(name="MDOT Solar Locations", show=False)
+    data = pd.read_csv(url)
+    
+    # Print the columns to debug the issue
+    print("CSV Columns:", data.columns)
+    
+    for index, row in data.iterrows():
+        if pd.notna(row[lat_col]) and pd.notna(row[long_col]):
+            popup_content = ' '.join([f"{col}: {row[col]}" for col in popup_cols]) if popup_cols else ''
+            folium.Marker(
+                location=[row[lat_col], row[long_col]],
+                icon=folium.Icon(color='green', icon='leaf'),
+                popup=folium.Popup(popup_content, parse_html=True)
+            ).add_to(feature_group)
+    
+    feature_group.add_to(map_obj)
+
+# Add the MDOT Solar locations layer from CSV to the map
+add_mdot_solar_locations_from_csv('https://raw.githubusercontent.com/MEADecarb/CTINT/main/MDOTSolar.csv', m, lat_col='Lat', long_col='Long', popup_cols=['MDOT Location', 'Address'])
 
 # Add layer control to the map
 folium.LayerControl().add_to(m)
@@ -78,6 +137,49 @@ geocoder = Geocoder(
 )
 
 geocoder.add_to(m)
+
+# Add a custom legend
+legend_html = '''
+     <div id="legend" style="position: fixed; 
+                 bottom: 50px; left: 50px; width: 300px; height: auto; 
+                 background-color: white; z-index:9999; font-size:14px;
+                 border:2px solid grey; border-radius: 5px; padding: 10px;">
+     <button onclick="toggleLegend()">Toggle Legend</button><br>
+     <div id="legend-content">
+     <b>Legend</b><br>
+     <i style="background:#2C557E;color:#2C557E;">&nbsp;&nbsp;&nbsp;&nbsp;</i> County Boundaries<br>
+     <i style="background:#fdda25;color:#fdda25;">&nbsp;&nbsp;&nbsp;&nbsp;</i> MD HB 550 Census Tracts<br>
+     <i style="background:#FF8C00;color:#FF8C00;">&nbsp;&nbsp;&nbsp;&nbsp;</i> ENOUGH Act Child Poverty Census Tracts<br>
+     <i style="background:black;color:black;">&nbsp;&nbsp;&nbsp;&nbsp;</i> ENOUGH Act School Location<br>
+     <i class="fa fa-star" style="color:blue"></i> Other School Location<br>
+     <i class="fa fa-leaf" style="color:green"></i> MDOT Solar Location
+     </div>
+     </div>
+     <script>
+     function toggleLegend() {
+         var legendContent = document.getElementById('legend-content');
+         if (legendContent.style.display === 'none') {
+             legendContent.style.display = 'block';
+         } else {
+             legendContent.style.display = 'none';
+         }
+     }
+     </script>
+     '''
+
+m.get_root().html.add_child(folium.Element(legend_html))
+
+# Add a textbox with a link to the GitHub README page
+readme_html = '''
+     <div style="position: fixed; 
+                 bottom: 10px; left: 50px; width: 300px; height: auto; 
+                 background-color: white; z-index:9999; font-size:14px;
+                 border:2px solid grey; border-radius: 5px; padding: 10px;">
+     <a href="https://github.com/MEADecarb/CTINT/blob/main/README.md" target="_blank">GitHub README</a>
+     </div>
+     '''
+
+m.get_root().html.add_child(folium.Element(readme_html))
 
 # Save the map to an HTML file
 m.save('index.html')
