@@ -35,7 +35,8 @@ def add_geojson_from_url(geojson_url, name, color, map_obj):
 # Add each GeoJSON source as a separate feature group with a color, label, and pop-up
 github_geojson_sources = [
     ("https://services.arcgis.com/njFNhDsUCentVYJW/arcgis/rest/services/MDOT_SHA_County_Boundaries/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson", "MDOT SHA County Boundaries"),
-    ("https://raw.githubusercontent.com/MEADecarb/schools/main/MDHB550CensusTracts.geojson", "MD HB 550 Census Tracts")  # Corrected URL for raw GeoJSON
+    ("https://raw.githubusercontent.com/MEADecarb/schools/main/MDHB550CensusTracts.geojson", "MD HB 550 Census Tracts"),
+    ("https://raw.githubusercontent.com/MEADecarb/CTINT/main/Enough_Act_Child_Poverty_Census_Tracts_-2847962131010073922%20(1).geojson", "Enough Act Child Poverty Census Tracts")  # Corrected URL for raw GeoJSON
 ]
 
 for i, (url, name) in enumerate(github_geojson_sources):
@@ -43,20 +44,25 @@ for i, (url, name) in enumerate(github_geojson_sources):
     add_geojson_from_url(url, name, color, m)
 
 # Function to add point layer from CSV with custom icon
-def add_point_layer_from_csv(url, map_obj, icon_url):
+def add_point_layer_from_csv(url, map_obj, icon_path):
     data = pd.read_csv(url)
+    
+    # Print the columns to debug the issue
+    print("CSV Columns:", data.columns)
+    
     for index, row in data.iterrows():
-        folium.Marker(
-            location=[row['lat'], row['long']],
-            icon=folium.CustomIcon(icon_url, icon_size=(30, 30)),
-            popup=row['name']  # Replace 'name' with the appropriate column name
-        ).add_to(map_obj)
+        if pd.notna(row['Lat']) and pd.notna(row['Long']):
+            folium.Marker(
+                location=[row['Lat'], row['Long']],
+                icon=folium.CustomIcon(icon_path, icon_size=(30, 30)),
+                popup=row['MDOT Location']  # Replace 'MDOT Location' with the appropriate column name
+            ).add_to(map_obj)
 
-# URL to your custom icon
-icon_url = 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Sunshine_icon.png'
+# Path to your custom icon
+icon_path = '/content/image.png'
 
 # Add the point layer to the map
-add_point_layer_from_csv('https://raw.githubusercontent.com/MEADecarb/geos/main/data/MDOTSolar.csv', m, icon_url)
+add_point_layer_from_csv('https://raw.githubusercontent.com/MEADecarb/geos/main/data/MDOTSolar.csv', m, icon_path)
 
 # Add layer control to the map
 folium.LayerControl().add_to(m)
@@ -74,7 +80,7 @@ geocoder = Geocoder(
 geocoder.add_to(m)
 
 # Save the map to an HTML file
-m.save('map.html')
+m.save('index.html')
 
-# Display the map in a Jupyter Notebook (optional)
+# Optional: Display the map in a Jupyter Notebook (only if you are running this in a Jupyter environment)
 m
